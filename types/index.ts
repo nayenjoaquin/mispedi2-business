@@ -33,5 +33,5 @@ export type BusinessType = {
 }
 export type BusinessContextType = {
     businesses: BusinessType[] | null;
-    setBusinesses: (business: BusinessType[]|null) => void;
+    setBusinesses: React.Dispatch<React.SetStateAction<BusinessType[] | null>>;
 }
