@@ -9,7 +9,7 @@ export const businessContext = createContext<BusinessContextType>({
 });
 
 export default function BusinessProvider({children}: {children: React.ReactNode}){
-    const [businesses, setBusinesses] = useState<BusinessType[]>([]);
+    const [businesses, setBusinesses] = useState<BusinessType[]|null>([]);
 
     return(
     <businessContext.Provider value={{ businesses, setBusinesses}}>
