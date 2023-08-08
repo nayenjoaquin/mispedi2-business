@@ -19,6 +19,7 @@ export default function BusinessSelector() {
         visible: {
             y: -30,
             opacity: 1,
+            zIndex: 1,
 
     }
     }
@@ -38,7 +39,7 @@ export default function BusinessSelector() {
                     <h4 className="font-medium">{business.name}</h4>
                 </div>
                 <FontAwesomeIcon icon={faChevronDown} className="text-2xl text-neutral-200 transition-all hover:text-neutral-400 cursor-pointer" />
-                <motion.div animate={showBusinesses ? "visible" : "hidden"} variants={selectorVariants}className="absolute  bg-white w-full left-0 top-nav">
+                <motion.div animate={showBusinesses ? "visible" : "hidden"} initial="hidden" variants={selectorVariants}className={`absolute  bg-white w-full left-0 top-nav ${showBusinesses? "": "pointer-events-none"}`}>
                     {
                         user?.businesses.map((business, index) => (
                             <div onClick={e=>{

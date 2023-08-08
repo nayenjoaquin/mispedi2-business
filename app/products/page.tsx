@@ -20,14 +20,14 @@ export default function ProductsPage(){
                 </div>
             </header>
             <main className="flex items-center justify-center bg-white w-full rounded-xl ">
-                <ul className=" p-5 w-full">
+                <ul className=" flex flex-col py-5 w-full gap-2.5">
                     {products && products.map((product) => (
-                        <li key={product.id} className="flex items-center justify-between gap-5">
+                        <li key={product.id} className="flex items-center justify-between gap-5 transition-all hover:bg-neutral-200 px-5 cursor-pointer">
                             <div className="flex items-center gap-5">
-                                <Image src={product.img} alt="product img" width={50} height={50} />
+                                <Image src={product.img} className="aspect-square object-cover rounded" alt="product img" width={50} height={50} />
                                 <p className="">{product.name}</p>
                             </div>
-                            <p>${product.price}</p>
+                            <p className="">${product.price}</p>
                         </li>
                     ))}
                 </ul>

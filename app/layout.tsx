@@ -28,6 +28,7 @@ export default function RootLayout({
           { name: 'Dashboard', ref: '/dashboard' },
           { name: 'Pedidos', ref: '/orders' },
           { name: 'Productos', ref: '/products' },
+          { name: 'Movimientos', ref: '/movements' },
         ]}/>
         {children}
         </body>

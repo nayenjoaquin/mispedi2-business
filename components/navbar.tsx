@@ -12,9 +12,9 @@ import { useProducts } from "@/hooks/useProducts";
 
 export default function Navbar(props: NavbarPropsType) {
     const [sideBar, setSideBar] = useState(false);
+    const {products} = useProducts();
     const { navigation } = props;
     const { user, loginWithGoogle, logout } = useUser();
-    if (user===undefined) return null;
     const mobileNavVariants = {
         hidden: {
             x: "-100vw",
@@ -41,7 +41,7 @@ export default function Navbar(props: NavbarPropsType) {
         setSideBar(!sideBar);
     }
     return (
-        <header className="absolute justify-between flex h-nav w-full items-center px-5 bg-white shadow-md">
+        <header className="z-50 absolute justify-between flex h-nav w-full items-center px-5 bg-white shadow-md">
             <div>
                 <nav className="hidden md:flex gap-5 h-full">
                     {navigation.map((item, index) => (
@@ -62,8 +62,8 @@ export default function Navbar(props: NavbarPropsType) {
             <FontAwesomeIcon icon={faXmark} className="md:hidden h-8 w-8 text-neutral-300 transition-all hover:bg-neutral-100  hover:text-neutral-400 p-2.5 rounded cursor-pointer" />
             : <FontAwesomeIcon icon={faBars} className="md:hidden h-8 w-8 text-neutral-300 transition-all hover:bg-neutral-100  hover:text-neutral-400 p-2.5 rounded cursor-pointer" />}
             </button>
-            <motion.div onClick={toggleMobileMenu} variants={sideBarBackdropVariants} animate={sideBar? "visible": "hidden"} className="md:hidden absolute top-nav right-0  backdrop-blur-md bg-opacity-30 bg-black  w-full h-[calc(100vh-80px)] flex flex-col items-center py-5"/>
-            <motion.nav variants={mobileNavVariants} animate={sideBar? "visible": "hidden"}className= "max-w-md flex flex-col items-center w-full h-[calc(100vh-80px)] shadow-md absolute top-nav left-0 bg-white py-5  md:hidden">
+            <motion.div onClick={toggleMobileMenu} variants={sideBarBackdropVariants} animate={sideBar? "visible": "hidden"} className={`md:hidden absolute top-nav right-0  backdrop-blur-md bg-opacity-30 bg-black  w-full h-[calc(100vh-80px)] flex flex-col items-center py-5 ${sideBar? "":"pointer-events-none"}`}/>
+            <motion.nav variants={mobileNavVariants} initial="hidden"animate={sideBar? "visible": "hidden"}className= "max-w-md flex flex-col items-center w-full h-[calc(100vh-80px)] shadow-md absolute top-nav left-0 bg-white py-5  md:hidden">
                 {navigation.map((item, index) => (
                     <Link onClick={toggleMobileMenu} href={item.ref} key={index} className=" font-medium text-gray-500 hover:bg-neutral-100 transition-all hover:border-l-4 hover:border-neutral-400 w-full pl-2.5 py-2.5">{item.name}</Link>
                 ))}
