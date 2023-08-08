@@ -12,7 +12,6 @@ import { useProducts } from "@/hooks/useProducts";
 
 export default function Navbar(props: NavbarPropsType) {
     const [sideBar, setSideBar] = useState(false);
-    const {products, getBusinessProducts} = useProducts();
     const { navigation } = props;
     const { user, loginWithGoogle, logout } = useUser();
     if (user===undefined) return null;
