@@ -8,11 +8,14 @@ import Image from "next/image";
 import {motion} from "framer-motion";
 import { useUser } from "@/hooks/useUser";
 import BusinessSelector from "./businessSelector";
+import { useProducts } from "@/hooks/useProducts";
 
 export default function Navbar(props: NavbarPropsType) {
     const [sideBar, setSideBar] = useState(false);
+    const {products, getBusinessProducts} = useProducts();
     const { navigation } = props;
     const { user, loginWithGoogle, logout } = useUser();
+    if (user===undefined) return null;
     const mobileNavVariants = {
         hidden: {
             x: "-100vw",
@@ -50,13 +53,11 @@ export default function Navbar(props: NavbarPropsType) {
                 </nav>
                 
             </div>
-            <BusinessSelector />
+            {user && <BusinessSelector />}
             <div className=" items-center gap-5 flex">
-                { user ? (
-                <Image src={user.avatar} alt="user avatar" className="rounded-full object-cover" height={50} width={50} />)
-                : (
-                    <Link href='/login'><FontAwesomeIcon icon={faUser} className="text-2xl text-neutral-200 transition-all hover:text-neutral-400 cursor-pointer"/></Link>)
-                }
+                {user && <Image src={user.avatar} alt="user avatar" className="rounded-full object-cover" height={50} width={50} />}
+                {user === undefined && <div className="h-[50px] w-[50px] rounded-full bg-neutral-300 animate-pulse"></div>}
+                {user===null&&<Link href='/login'><FontAwesomeIcon icon={faUser} className="text-2xl text-neutral-200 transition-all hover:text-neutral-400 cursor-pointer" onClick={e=>setSideBar(false)} /></Link>}
             </div>
             <button onClick={toggleMobileMenu} className="absolute left-2.5 focus:border-2 rounded-lg focus:border-main-500">{sideBar ?
             <FontAwesomeIcon icon={faXmark} className="md:hidden h-8 w-8 text-neutral-300 transition-all hover:bg-neutral-100  hover:text-neutral-400 p-2.5 rounded cursor-pointer" />

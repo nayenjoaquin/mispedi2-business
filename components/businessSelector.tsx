@@ -7,17 +7,17 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function BusinessSelector() {
-    const { businesses, getUserBusinesses, selectedBusiness, selectBusiness } = useBusiness();
+    const { business, selectBusiness} = useBusiness();
     const { user } = useUser();
     const [showBusinesses, setShowBusinesses] = useState(false);
     const selectorVariants = {
         hidden: {
-            y: -10,
+            y: -100,
             opacity: 0,
             zIndex: -1,
         },
         visible: {
-            y: 0,
+            y: -30,
             opacity: 1,
 
     }
@@ -31,16 +31,16 @@ export default function BusinessSelector() {
         <div onClick={e=>{
             e.stopPropagation()
             toggleBusinesses()
-        }} className="relative flex justify-between items-center gap-5 px-5 w-60 h-20 rounded-[40px] transition-all hover:bg-neutral-100 cursor-pointer">
-            {businesses && selectedBusiness && <>
+        }} className="relative flex justify-between items-center gap-5 px-5 w-60  rounded-md transition-all hover:bg-neutral-100 cursor-pointer">
+            {business && <>
                 <div className="flex gap-2.5 items-center">
-                    <Image src={selectedBusiness?.logo} alt="business logo" className="rounded-full object-cover aspect-square" height={50} width={50} />
-                    <h4 className="font-medium">{selectedBusiness.name}</h4>
+                    <Image src={business.logo} alt="business logo" className="rounded-full object-cover aspect-square" height={50} width={50} />
+                    <h4 className="font-medium">{business.name}</h4>
                 </div>
                 <FontAwesomeIcon icon={faChevronDown} className="text-2xl text-neutral-200 transition-all hover:text-neutral-400 cursor-pointer" />
                 <motion.div animate={showBusinesses ? "visible" : "hidden"} variants={selectorVariants}className="absolute  bg-white w-full left-0 top-nav">
                     {
-                        businesses.map((business, index) => (
+                        user?.businesses.map((business, index) => (
                             <div onClick={e=>{
                                 e.stopPropagation()
                                 selectBusiness(business)

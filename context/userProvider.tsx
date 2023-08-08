@@ -8,12 +8,7 @@ export const UserContext = createContext<UserContextType>({
 });
 
 export default function UserProvider({ children }: UserProviderPropsType) {
-    const [user,setUser] = useState<UserType|null>({
-        id: "1",
-        name: "John Doe",
-        email: "johndoe@gmail.com",
-        avatar: "https://th.bing.com/th/id/OIP.ysdd9pBlwnNdnxQoC8y4KQHaHa?pid=ImgDet&rs=1",
-    });
+    const [user,setUser] = useState<UserType|null|undefined>(undefined);
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

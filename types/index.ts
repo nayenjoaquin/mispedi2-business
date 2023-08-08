@@ -19,10 +19,11 @@ export type UserType={
     email: string;
     avatar: string;
     id: string;
+    businesses: BusinessType[];
 }
 export type UserContextType = {
-    user: UserType | null;
-    setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
+    user: UserType | null| undefined;
+    setUser: React.Dispatch<React.SetStateAction<UserType | null |undefined>>;
 }
 export type BusinessType = {
     name: string;
@@ -32,6 +33,25 @@ export type BusinessType = {
     description: string;
 }
 export type BusinessContextType = {
-    businesses: BusinessType[] | null;
-    setBusinesses: React.Dispatch<React.SetStateAction<BusinessType[] | null>>;
+    business: BusinessType | null;
+    setBusiness: React.Dispatch<React.SetStateAction<BusinessType | null>>;
+}
+type Option = {
+    option: string;
+    values: string[];
+}
+
+export type ProductType = {
+    business: string;
+    name: string;
+    price: number;
+    id: string;
+    description: string;
+    img: string;
+    extraImages?: string[];
+    options?: Option[];
+}
+export type ProductContextType = {
+    products: ProductType[] | null;
+    setProducts: React.Dispatch<React.SetStateAction<ProductType[] | null>>;
 }

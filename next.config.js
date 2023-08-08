@@ -2,7 +2,8 @@
 const nextConfig = {
     images: {
         domains:['th.bing.com',
-        'lh3.googleusercontent.com']
+        'lh3.googleusercontent.com',
+        'firebasestorage.googleapis.com']
     }
 }
 

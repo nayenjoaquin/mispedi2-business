@@ -1,26 +1,44 @@
 import { UserContext } from "@/context/userProvider";
-import { UserType } from "@/types";
-import { useContext } from "react";
+import { BusinessType, UserType } from "@/types";
+import { use, useContext, useEffect } from "react";
 import {app, auth, db} from "@/firebase/config";
-import { GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
+import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
 import { log } from "console";
 import { useBusiness } from "./useBusiness";
 import { useRouter } from "next/navigation";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export const useUser = () => {
     const { user, setUser } = useContext(UserContext);
-    const {businesses, getUserBusinesses, resetBusinesses} = useBusiness();
+    const {selectBusiness} = useBusiness();
     const router = useRouter();
 
-    const login = (user: UserType) => {
-        getUserBusinesses(user.id)
+    useEffect(() => {
+        detectUser();
+    }, [])
 
-        setUser(user);
-        router.push('/dashboard')
+    const login = (user: any) => {
+        getUserBusinesses(user.id).then((businesses) => {
+            setUser({...user, businesses})
+            router.push('/dashboard')
+        })
+
+    }
+    const getUserBusinesses= (uid: string) => {
+        const q = query(collection(db, 'business'), where('owner', '==', uid))
+        return getDocs(q).then((querySnapshot) => {
+          const businesses:BusinessType[] = []
+          querySnapshot.forEach((doc) => {
+            businesses.push(doc.data() as BusinessType)
+          })
+            selectBusiness(businesses[0])
+            return businesses
+        })
+
 
     }
 
-    const mapUser = (user: any): UserType => {
+    const mapUser = (user: any) => {
         const { displayName, email, photoURL, uid } = user;
         return {
             id: uid,
@@ -30,10 +48,20 @@ export const useUser = () => {
         }
     }
 
+    const detectUser = () => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const currentUser = mapUser(user);
+                login(currentUser);
+            } else {
+                setUser(null);
+            }
+        })
+    }
+
     const logout = () => {
         signOut(auth).then(() => {
             setUser(null);
-            resetBusinesses();
         }).catch((error) => {
             console.log(error);
         });
@@ -50,6 +78,7 @@ export const useUser = () => {
             });
 
     }
+
 
     return {
         user,
