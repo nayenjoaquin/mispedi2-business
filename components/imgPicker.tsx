@@ -51,7 +51,7 @@ export default function ImgPicker(props: {handleChange: (img: ArrayBuffer| strin
         <div className="grid grid-cols-2 grid-rows-4 md:grid-cols-4 md:grid-rows-2 gap-5 p-5 md:grid-flow-col max-w-5xl">
             {
                 Array.from(Array(5).keys()).map((i) => (
-                    <ImgInput main={i==0 ? true : false} i={i} handleChange={handleChange}/>
+                    <ImgInput key={i} main={i==0 ? true : false} i={i} handleChange={handleChange}/>
                 ))
             }
         </div>
