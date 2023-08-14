@@ -40,7 +40,7 @@ export const NewOptionItem = (props: {
                 handleNameChange(e, i)
             }} className="w-fit rounded text-lg  outline-none border-b-2 border-main-500" type="text" name={`option-${i}`}  id={`option-${i}`} placeholder={option.name}/>
             {
-                option.values.length>0 ?
+                option.values && option.values.length>0 ?
                 <motion.div layout className="flex gap-2.5 flex-wrap">
                 {option.values.map((value,j) => {
                     return(
