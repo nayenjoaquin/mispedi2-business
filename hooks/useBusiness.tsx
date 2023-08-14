@@ -1,10 +1,11 @@
 import { businessContext } from "@/context/businessProvider";
 import { use, useContext, useEffect, useState } from "react";
-import { app, auth, db } from "@/firebase/config";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { app, auth, db, storage } from "@/firebase/config";
+import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { BusinessType, ProductType } from "@/types";
 import { useProducts } from "./useProducts";
 import { productContext } from "@/context/productsProvider";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 export const useBusiness = () => {
     const { business, setBusiness } = useContext(businessContext);
@@ -42,9 +43,24 @@ export const useBusiness = () => {
         })
     }
 
+    const createBusiness = async (business: BusinessType) => {
+        console.log(business)
+        const storageRef = ref(storage, `logos/${business.id}`)
+        uploadString(storageRef, business.logo, 'data_url').then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => {
+                setDoc(doc(db, 'business', business.id), {...business, logo: url}).then((res) => {
+                    selectBusiness(business)
+                })
+            })
+        })
+    }
+
+
+
     return {business,
         selectBusiness,
         getBusinessProducts,
+        createBusiness
         }
 
 }

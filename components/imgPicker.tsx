@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
 import { useRef, useState } from "react"
 
-const ImgInput = (props: {main:boolean, i: number, handleChange: (img:ArrayBuffer|string, i:number)=>void}) => {
+const ImgInput = (props: {main:boolean, i: number, handleChange: (img:ArrayBuffer|string, i:number)=>void, handleRemove: (i: number) => void}) => {
     const [img, setImg] = useState<string | ArrayBuffer | null >("")
-    const {main, i, handleChange}= props
+    const {main, i, handleChange, handleRemove}= props
     const inputRef = useRef<HTMLInputElement>(null)
 
     const handleClick = () => {
@@ -23,12 +23,13 @@ const ImgInput = (props: {main:boolean, i: number, handleChange: (img:ArrayBuffe
     }
     const removeImg = (e:any) => {
         e.stopPropagation()
+        handleRemove(i)
         setImg("")
     }
 
     
     return(
-        <div onClick={handleClick} className={` relative flex flex-col items-center justify-center gap-5 bg-main-400  ${main ? "max-h-60 col-span-2  md:row-span-2 md:max-h-full md:aspect-square" : "aspect-square"} rounded-lg transition-all hover:bg-main-500 cursor-pointer `}>
+        <div onClick={handleClick} className={` relative flex flex-col items-center justify-center gap-5 bg-main-400  ${main ? "max-h-52 col-span-2  md:row-span-2 md:max-h-full md:aspect-square" : "aspect-square"} rounded-lg transition-all hover:bg-main-500 cursor-pointer `}>
             {
                 !img?
                 <FontAwesomeIcon icon={faPlus} className="text-5xl text-main-200 opacity-50"/>:
@@ -44,14 +45,14 @@ const ImgInput = (props: {main:boolean, i: number, handleChange: (img:ArrayBuffe
 
 
 
-export default function ImgPicker(props: {handleChange: (img: ArrayBuffer| string, i:number) => void}) {
+export default function ImgPicker(props: {handleChange: (img: ArrayBuffer| string, i:number) => void, handleRemove: (i:number)=>void}) {
 
-    const {handleChange} = props
+    const {handleChange, handleRemove} = props
     return (
-        <div className="grid grid-cols-2 grid-rows-4 md:grid-cols-4 md:grid-rows-2 gap-5 p-5 md:grid-flow-col max-w-5xl">
+        <div className="grid grid-cols-2 grid-rows-3 md:grid-cols-4 md:grid-rows-2 gap-5 p-5 md:grid-flow-col max-w-5xl w-full">
             {
                 Array.from(Array(5).keys()).map((i) => (
-                    <ImgInput key={i} main={i==0 ? true : false} i={i} handleChange={handleChange}/>
+                    <ImgInput key={i} main={i==0 ? true : false} i={i} handleChange={handleChange} handleRemove={handleRemove}/>
                 ))
             }
         </div>

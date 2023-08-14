@@ -36,10 +36,6 @@ export type BusinessContextType = {
     business: BusinessType | null;
     setBusiness: React.Dispatch<React.SetStateAction<BusinessType | null>>;
 }
-type Option = {
-    option: string;
-    values: string[];
-}
 
 export type ProductType = {
     business: string;
@@ -49,9 +45,19 @@ export type ProductType = {
     description: string;
     img: string;
     extraImages?: string[];
-    options?: Option[];
+    options?: OptionType[];
 }
 export type ProductContextType = {
     products: ProductType[] | null;
     setProducts: React.Dispatch<React.SetStateAction<ProductType[] | null>>;
+}
+export type OptionType={
+    name: string;
+    values?: string[];
+    id?: string;
+}
+
+export type NewOptionContextType = {
+    options: OptionType[];
+    setOptions: React.Dispatch<React.SetStateAction<OptionType[]>>;
 }

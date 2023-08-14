@@ -20,7 +20,6 @@ export const useUser = () => {
     const login = (user: any) => {
         getUserBusinesses(user.id).then((businesses) => {
             setUser({...user, businesses})
-            router.push('/dashboard')
         })
 
     }
