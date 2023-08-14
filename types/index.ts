@@ -53,7 +53,7 @@ export type ProductContextType = {
 }
 export type OptionType={
     name: string;
-    values?: string[];
+    values: string[];
     id?: string;
 }
 
