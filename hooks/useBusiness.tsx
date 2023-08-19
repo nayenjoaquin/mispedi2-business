@@ -6,33 +6,22 @@ import { BusinessType, ProductType } from "@/types";
 import { useProducts } from "./useProducts";
 import { productContext } from "@/context/productsProvider";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { $CLIENT_URL } from "@/consts/urls";
+import { useRouter } from "next/navigation";
 
 export const useBusiness = () => {
     const { business, setBusiness } = useContext(businessContext);
-    const { getExtraImages, initProducts } = useProducts();
+    const { initProducts } = useProducts();
+    const router = useRouter()
 
     const getBusinessProducts = async (businessId: string) => {
       const q = query(collection(db,"products"), where("business", "==", businessId));
-
-      return getDocs(q).then((querySnapshot) => {
-          const newProducts: ProductType[] = [];
-          querySnapshot.forEach((doc) => {
-              const {id, name, description, price, business, img} = doc.data()
-              let product: ProductType = {
-                  id,
-                  name,
-                  description,
-                  price,
-                  business,
-                  img,
-              };
-              getExtraImages(id).then((extraImages) => {
-                  product.extraImages = extraImages;
-              });
-              newProducts.push(product);
-          });
-          return newProducts;
-      })
+        const querySnapshot = await getDocs(q);
+        let products: ProductType[] = [];
+        querySnapshot.forEach((doc) => {
+            products.push(doc.data() as ProductType)
+        })
+        return products;
   }
 
 
@@ -46,13 +35,19 @@ export const useBusiness = () => {
     const createBusiness = async (business: BusinessType) => {
         console.log(business)
         const storageRef = ref(storage, `logos/${business.id}`)
-        uploadString(storageRef, business.logo, 'data_url').then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((url) => {
-                setDoc(doc(db, 'business', business.id), {...business, logo: url}).then((res) => {
-                    selectBusiness(business)
-                })
-            })
-        })
+        const snapshot = await uploadString(storageRef, business.logo, 'data_url')
+        const logoUrl = await getDownloadURL(snapshot.ref)
+        const newBusiness = {
+            ...business,
+            logo: logoUrl,
+            url: $CLIENT_URL+'store/'+business.id
+        }
+        console.log(newBusiness)
+        await setDoc(doc(db, "business", newBusiness.id), newBusiness)
+        await selectBusiness(newBusiness)
+
+        router.push('/business/new/created')
+
     }
 
 

@@ -31,6 +31,7 @@ export type BusinessType = {
     id: string;
     owner: string;
     description: string;
+    url: string;
 }
 export type BusinessContextType = {
     business: BusinessType | null;
@@ -53,8 +54,13 @@ export type ProductContextType = {
 }
 export type OptionType={
     name: string;
-    values: string[];
-    id?: string;
+    values: OptionValueType[];
+    id: string;
+}
+export type OptionValueType = {
+    name: string;
+    id: string;
+    option: string;
 }
 
 export type NewOptionContextType = {

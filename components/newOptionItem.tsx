@@ -47,11 +47,11 @@ export const NewOptionItem = (props: {
                         <NewOptionValue value={value} j={j} i={i} key={j}/>
                     )
                 })}
-                <FontAwesomeIcon icon={faPlus} className="text-gray-400 cursor-pointer bg-gray-300 p-2.5 rounded-full transition-all hover:bg-gray-400 hover:text-gray-500" onClick={e=>{ addValue(i)}}/>
+                <FontAwesomeIcon icon={faPlus} className="text-gray-400 cursor-pointer bg-gray-300 p-2.5 rounded-full transition-all hover:bg-gray-400 hover:text-gray-500" onClick={e=>{ addValue(i, option)}}/>
                 </motion.div>
                 :
                 <button type="button" onClick={e=>{
-                    addValue(i)
+                    addValue(i,option)
                 }} className="bg-neutral-200 text-gray-600 w-fit rounded transition-all hover:bg-neutral-300 px-2">{$ADD_VALUE}</button>
 
             }

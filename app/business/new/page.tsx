@@ -20,6 +20,7 @@ export default function NewBusinessPage() {
         id: "",
         owner: "",
         description: "",
+        url: ""
 
     })
 

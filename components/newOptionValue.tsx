@@ -1,11 +1,12 @@
 import { useNewOption } from "@/hooks/useNewOption"
+import { OptionValueType } from "@/types"
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { motion } from "framer-motion"
 import { useId } from "react"
 
 export default function NewOptionValue(props: {
-    value: string,
+    value: OptionValueType,
     j: number,
     i: number,
 }) {
@@ -27,7 +28,7 @@ export default function NewOptionValue(props: {
 
     return(
         <motion.div variants={variants} initial='hidden' animate='visible'  className="flex items-center relative bg-gray-300 rounded-3xl px-5">
-            <input onChange={e=>{handleValueChange(e,i,j)}} className=" outline-none w-24 bg-transparent " placeholder={value} />
+            <input onChange={e=>{handleValueChange(e,i,j)}} className=" outline-none w-24 bg-transparent " placeholder={value.name} />
             <FontAwesomeIcon icon={faXmark} className="absolute right-2 text-gray-400 cursor-pointer  p-1 rounded-full transition-all  hover:text-gray-600 text-xl" onClick={e=>{removeValue(i,j)}}/>
         </motion.div>
     )

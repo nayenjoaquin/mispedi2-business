@@ -90,7 +90,7 @@ export default function NewProductPage() {
     return(
         <section className="pt-nav bg-white min-h-screen">
             <header className="flex flex-col md:flex-row justify-between md:items-center p-5 gap-5  m-2.5 rounded-xl bg-white">
-                <h1 className="text-3xl font-semibold">{newProduct.name ? newProduct.name : "Nuevo producto"}</h1>
+                <h1 className="text-3xl font-semibold flex justify-center w-full">{newProduct.name ? newProduct.name : "Nuevo producto"}</h1>
             </header>
             <main className="bg-white w-full">
                 <form className="flex flex-wrap bg-white gap-5 w-full justify-center" onSubmit={handleSubmit}>
