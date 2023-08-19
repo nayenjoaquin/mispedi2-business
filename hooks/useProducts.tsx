@@ -25,7 +25,6 @@ export const useProducts = () => {
     const addExtraImages= async (extraImages: string[], productId: string) => {
         const extraImagesURL: string[] = [];
         for( const img of extraImages){
-            console.log('img', extraImages.indexOf(img))
             const storageRef = ref(storage, `products/${productId}-${extraImages.indexOf(img)}`)
             const snapshot = await uploadString(storageRef, img, 'data_url')
             const url = await getDownloadURL(snapshot.ref)

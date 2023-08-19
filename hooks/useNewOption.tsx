@@ -24,6 +24,10 @@ export const useNewOption = () => {
         setOptions(prevState => {
             let newOptions:OptionType[]= JSON.parse(JSON.stringify(prevState))
             newOptions[i].name = value
+            newOptions[i].values.forEach((value, j) => {
+                value.option = newOptions[i].name
+            })
+            console.log(newOptions)
             return newOptions
         })
     }

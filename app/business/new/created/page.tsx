@@ -7,7 +7,7 @@ export default function ProductCreated(){
         <main className="min-h-screen bg-white pt-nav">
             <h1>Producto creado</h1>
             <h2>Nombre: {business?.name}</h2>
-            <h2>url: {business?.url}</h2>
+            <h2>url: <a href={business?.url}>Link a la tienda</a></h2>
         </main>
     )
 }
