@@ -43,7 +43,7 @@ export default function BusinessSelector() {
             {business && <>
                 <div className="flex gap-2.5 items-center">
                     <Image src={business.logo} alt="business logo" className="rounded-full object-cover aspect-square" height={50} width={50} />
-                    <h4 className="font-medium">{business.name}</h4>
+                    <h4 className="font-medium line-clamp-1">{business.name}</h4>
                 </div>
                 <FontAwesomeIcon icon={faChevronDown} className="text-2xl text-neutral-200 transition-all hover:text-neutral-400 cursor-pointer" />
                 <motion.div animate={showBusinesses ? "visible" : "hidden"} initial="hidden" variants={selectorVariants}className={`absolute  bg-white w-full left-0 top-nav ${showBusinesses? "": "pointer-events-none "} shadow-md flex flex-col gap-2.5 py-2.5`}>

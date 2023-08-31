@@ -44,7 +44,7 @@ export default function NewBusinessPage() {
         }
     }
 
-    const handleSubmit = (e:any) => {
+    const handleSubmit = async(e:any) => {
         e.preventDefault()
             user?
             setNewBusiness(prevState => {
@@ -63,7 +63,8 @@ export default function NewBusinessPage() {
                 }
             return newBusiness
             })
-            createBusiness(newBusiness)
+            await createBusiness(newBusiness)
+            
     }
 
             
@@ -72,8 +73,8 @@ export default function NewBusinessPage() {
 
     const imgRef = useRef<HTMLInputElement>(null)
     return (
-        <section className="min-h-screen pt-nav w-full flex flex-col items-center">
-        <main className="w-full flex justify-center">
+        <section className="min-h-screen pt-nav w-full flex flex-col items-center justify-center">
+        <main className="w-full flex justify-center items-center">
             <form className="bg-white flex flex-col items-center w-full max-w-lg rounded-xl shadow-md p-5 gap-5" onSubmit={handleSubmit}>
                 <h1 className="text-3xl font-semibold">{$NEW_BUSINESS}</h1>
                 <div onClick={e=>{

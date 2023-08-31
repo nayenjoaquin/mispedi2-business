@@ -13,13 +13,14 @@ export const useUser = () => {
     const {selectBusiness} = useBusiness();
     const router = useRouter();
 
-    useEffect(() => {
-        detectUser();
-    }, [])
-
     const login = (user: any) => {
         getUserBusinesses(user.id).then((businesses) => {
             setUser({...user, businesses})
+            if(businesses.length == 0){
+                router.push('/no-businesses')
+            }else{
+                router.push('/home')
+            }
         })
 
     }
@@ -30,7 +31,7 @@ export const useUser = () => {
           querySnapshot.forEach((doc) => {
             businesses.push(doc.data() as BusinessType)
           })
-            selectBusiness(businesses[0])
+            businesses.length >0 && selectBusiness(businesses[0])
             return businesses
         })
 
@@ -54,6 +55,7 @@ export const useUser = () => {
                 login(currentUser);
             } else {
                 setUser(null);
+                router.push('/login')
             }
         })
     }
@@ -61,6 +63,7 @@ export const useUser = () => {
     const logout = () => {
         signOut(auth).then(() => {
             setUser(null);
+            router.push('/login')
         }).catch((error) => {
             console.log(error);
         });
@@ -83,5 +86,7 @@ export const useUser = () => {
         user,
         loginWithGoogle,
         logout,
+        getUserBusinesses,
+        detectUser
     }
 }

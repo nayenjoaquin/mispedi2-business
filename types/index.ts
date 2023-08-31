@@ -8,6 +8,31 @@ type NavType= {
     name: string;
     ref: string;
 }
+export type SelectedOptions = {
+    [key: string]: OptionValueType;
+}
+export type CartItem={
+    product: ProductType;
+    selectedOptions: SelectedOptions;
+    quantity: number;
+}
+
+export type OrderType = {
+    business: string;
+    products: CartItem[];
+    status: string;
+    total: number;
+    client: string;
+    address: string;
+    phone: number;
+    email: string;
+    notes: string;
+    region: string;
+    commune: string;
+    id: string;
+    deliveryDate?: string;
+}
+
 export type NavbarPropsType = {
     navigation: Array<NavType>;
 }
