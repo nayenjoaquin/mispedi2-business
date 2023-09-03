@@ -1,7 +1,13 @@
+import { RegisterErrorsState } from "@/app/register/page";
+
 export type FormGroupPropsType = {
+    errors: {
+        [key: string]: string;
+    }
     label: string;
     inputType: string;
     name: string;
+    required?: boolean;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 type NavType= {

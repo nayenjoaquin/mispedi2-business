@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 interface UserAvatarProps {
     user: UserType;
@@ -13,11 +15,12 @@ export default function UserAvatar(props: UserAvatarProps) {
     const variants = {
         hidden: {
             opacity: 0,
-            y: -10,
+            y: -300,
         },
         visible: {
             opacity: 1,
             y: 0,
+            zIndex: 100,
         }
     }
     const [sideBar, setSideBar] = useState(false);
@@ -28,7 +31,14 @@ export default function UserAvatar(props: UserAvatarProps) {
             <div onClick={e=>{
                 setSideBar(!sideBar);
             }} className="h-[50px] w-[50px] rounded-full overflow-hidden cursor-pointer transition-all hover:scale-105">
-                <Image src={user?.avatar}  objectFit="cover" alt="user avatar" height={50} width={50}/>
+                {user ?
+                user.avatar ? <Image src={user.avatar} className="rounded-full aspect-square object-cover" objectFit="cover" alt="Avatar" height={50} width={50} />
+                : <div className="flex items-center justify-center w-full h-full bg-gray-300 text-gray-800 text-2xl">
+                    {user.name[0].toUpperCase()}
+                </div>
+                : <div className="">
+                    <FontAwesomeIcon icon={faUser} className="text-gray-800 text-2xl"/>
+                </div>}
             </div>
             <AnimatePresence>
             {sideBar &&

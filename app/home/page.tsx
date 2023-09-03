@@ -10,7 +10,7 @@ export default function homePage(){
     ]
     return(
         <section className="min-h-screen pt-nav grid place-content-center">
-            <main className="grid grid-cols-2 grid-rows-2 gap-5 ">
+            <main className="grid grid-cols-2 grid-rows-2 gap-5 p-5 bg-white rounded-xl shadow-md">
                 {sections.map((section, index) => (
                     <SectionCard key={index} section={section}/>
                 ))}

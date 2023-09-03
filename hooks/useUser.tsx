@@ -2,11 +2,13 @@ import { UserContext } from "@/context/userProvider";
 import { BusinessType, UserType } from "@/types";
 import { use, useContext, useEffect } from "react";
 import {app, auth, db} from "@/firebase/config";
-import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, updateProfile } from "firebase/auth";
 import { log } from "console";
 import { useBusiness } from "./useBusiness";
 import { useRouter } from "next/navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { toast } from "react-toastify";
+
 
 export const useUser = () => {
     const { user, setUser } = useContext(UserContext);
@@ -24,6 +26,57 @@ export const useUser = () => {
         })
 
     }
+
+    const register = async ({email,password,username}:{email:string, password:string, username:string}) => {
+        try {
+            const { user } = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(user, { displayName: username });
+
+            const currentUser = mapUser(user);
+            toast.success('Usuario creado correctamente',{
+                position: 'top-center'
+            })
+
+            login(currentUser);
+        } catch (error: any) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            if (errorCode === 'auth/email-already-in-use') {
+                toast.error('El correo electrónico ya está en uso',{
+                    position: 'top-center'
+                })
+            } else {
+                toast.error(errorMessage,{
+                    position: 'top-center'
+                })
+            }
+        }
+    }
+
+    const loginWithEmail = async ({email,password}:{email:string, password:string}) => {
+        try {
+            const { user } = await signInWithEmailAndPassword(auth, email, password);
+            const currentUser = mapUser(user);
+            login(currentUser);
+        } catch (error: any) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            if (errorCode === 'auth/wrong-password') {
+                toast.error('Contraseña incorrecta',{
+                    position: 'top-center'
+                })
+            } else {
+                toast.error(errorMessage,{
+                    position: 'top-center'
+                })
+            }
+        }
+    }
+
+
+            
+
+
     const getUserBusinesses= (uid: string) => {
         const q = query(collection(db, 'business'), where('owner', '==', uid))
         return getDocs(q).then((querySnapshot) => {
@@ -87,6 +140,8 @@ export const useUser = () => {
         loginWithGoogle,
         logout,
         getUserBusinesses,
-        detectUser
+        detectUser,
+        register,
+        loginWithEmail
     }
 }

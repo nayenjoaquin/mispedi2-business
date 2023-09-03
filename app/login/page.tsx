@@ -5,24 +5,36 @@ import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginPage() {
 
-    const {user, loginWithGoogle} = useUser();
+    const {user, loginWithGoogle, loginWithEmail} = useUser();
+    const [data, setData] = useState({
+        email: '',
+        password: ''
+    })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value)
+        setData({
+            ...data,
+            [e.target.name]: e.target.value
+        })
     }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        loginWithEmail(data)
     }
 
     return (
-        <main className="h-screen flex flex-col items-center justify-center gap-7">
+        <main className="h-screen flex flex-col items-center justify-center gap-7 pt-nav">
+            <ToastContainer />
             <h1 className="text-2xl font-bold">Ingresa a tu cuenta</h1>
             <form className="flex flex-col items-center justify-center bg-white shadow-md rounded-lg px-6 py-12 w-full max-w-md gap-5 " onSubmit={handleSubmit}>
-                <FormGroup label="Correo electrónico" name="email" inputType="email" handleChange={handleChange} />
-                <FormGroup label="Contraseña" name="password" inputType="password" handleChange={handleChange} />
+                <FormGroup label="Correo electrónico" name="email" inputType="email" handleChange={handleChange} errors={{}}/>
+                <FormGroup label="Contraseña" name="password" inputType="password" handleChange={handleChange} errors={{}} />
                 <div className="flex justify-between w-full">
                     <div className="flex gap-2.5"><input className="w-4 h-4 checked:accent-main-500 peer" type="checkbox"/>
                     <label className="text-sm peer-checked:text-main-500">Recuérdame</label></div>

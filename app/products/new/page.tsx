@@ -98,8 +98,8 @@ export default function NewProductPage() {
                     <div className="flex flex-col   gap-5 w-full max-w-xl px-5" >
                     <NewOptionProvider><OptionPicker handleOptionsChange={handleOptionsChange}/></NewOptionProvider>
                     <div className="flex flex-col   gap-5 w-full max-w-xl px-5" >
-                        <FormGroup label="Nombre" name="name" inputType="text" handleChange={handleChange} />
-                        <FormGroup label="Precio" name="price" inputType="number" handleChange={handleChange} />
+                        <FormGroup label="Nombre" name="name" inputType="text" handleChange={handleChange} errors={{}}/>
+                        <FormGroup label="Precio" name="price" inputType="number" handleChange={handleChange} errors={{}}/>
                         <label htmlFor="description" className="font-semibold">Descripción</label>
                         <textarea name="description" className="border border-gray-300 rounded w-full px-3 py-2 focus:border-main-500 focus:border-2 outline-none transition-all" onChange={handleChange}></textarea>
                         <div className="flex gap-5 w-full justify-center">

@@ -6,6 +6,7 @@ import UserProvider from '@/context/userProvider'
 import BusinessProvider from '@/context/businessProvider'
 import ProductsProvider from '@/context/productsProvider'
 import { OrdersProvider } from '@/context/ordersProvider'
+import { ToastContainer } from 'react-toastify'
 
 const inter = Inter({ subsets: ['latin'] })
 

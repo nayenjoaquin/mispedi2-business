@@ -96,6 +96,8 @@ export const useBusiness = () => {
                 url: `${$CLIENT_URL}/store/${docRef.id}`
             }
             selectBusiness(business)
+
+            return business
         }
         router.push('/business/new/created')
         
