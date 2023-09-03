@@ -34,7 +34,7 @@ export const useBusiness = () => {
             const querySnapshot = await getDocs(q);
             let orders:OrderType[] = [];
             querySnapshot.forEach((doc) => {
-                const {business, address, products, status, total, client, commune, region, email, phone, notes} = doc.data()
+                const {business, address, products, status, total, client, commune, region, email, phone, notes, deliveryDate} = doc.data()
                 orders.push({
                     id: doc.id,
                     business,
@@ -48,6 +48,7 @@ export const useBusiness = () => {
                     email,
                     phone,
                     notes,
+                    deliveryDate
                 })
             })
             return orders;
@@ -132,6 +133,7 @@ export const useBusiness = () => {
         getBusinessProducts,
         createBusiness,
         deleteBusiness,
+        getBusinessOrders
         }
 
 }

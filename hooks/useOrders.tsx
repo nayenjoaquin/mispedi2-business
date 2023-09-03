@@ -2,30 +2,33 @@ import { ordersContext } from "@/context/ordersProvider";
 import { db } from "@/firebase/config";
 import { OrderType } from "@/types";
 import { collection, doc, query, updateDoc, where } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 
 export const useOrders = () => {
     const { orders, setOrders } = useContext(ordersContext);
     const [filteredOrders, setFilteredOrders] = useState<OrderType[]>(orders)
+    const router = useRouter()
 
 
     const getOrdersByStatus = (status: string) => {
-        const filteredOrders = orders.filter(order => order.status === status)
+        const filteredOrders = orders.filter(order => order.status.toLowerCase() === status.toLowerCase())
         setFilteredOrders(filteredOrders)
     }
     const initOrders = (orders: OrderType[]) => {
         setOrders(orders);
     }
     const acceptOrder = async (id: string, date:string) => {
+            const formatedDate = date.split("-").reverse().join("/")
             const docRef = doc(db, "orders", id);
             await updateDoc(docRef, {
                 status: "Confirmado",
-                deliveryDate: date
+                deliveryDate: formatedDate
             });
             const newOrders = orders.map(order => {
                 if(order.id === id){
                     order.status = "Confirmado"
-                    order.deliveryDate = date
+                    order.deliveryDate = formatedDate
                 }
                 return order
             })
@@ -45,6 +48,8 @@ export const useOrders = () => {
             return order
         })
         setOrders(newOrders)
+        router.back()
+        
     }
 
     const deliverOrder = async (id: string) => {
@@ -59,6 +64,7 @@ export const useOrders = () => {
             return order
         })
         setOrders(newOrders)
+        router.back()
     }
 
 

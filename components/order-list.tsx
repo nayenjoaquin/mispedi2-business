@@ -10,10 +10,10 @@ export default function OrderList(props: OrderListProps) {
     const {orders} = props
     const router = useRouter()
     return(
-        <ul className="flex flex-col gap-2.5">
+        <ul className="flex flex-col gap-2.5 w-full">
             {orders.map(order => <li onClick={e=>{
                 router.push(`/orders/${order.id}`)
-            }} key={order.id} className="p-5 flex items-center gap-2.5 xl:gap-5 xl:text-xl justify-between text-md font-medium cursor-pointer transition-all hover:bg-neutral-200">
+            }} key={order.id} className=" w-full p-5 flex items-center gap-2.5 xl:gap-5 xl:text-xl justify-between text-md font-medium cursor-pointer transition-all hover:bg-neutral-200">
                 <StatusChip status={order.status} />
                 <span className="whitespace-nowrap">{order.client}</span>
                 <span className="text-sm font-extralight line-clamp-1 w-full">

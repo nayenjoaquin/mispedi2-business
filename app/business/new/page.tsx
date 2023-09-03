@@ -106,7 +106,6 @@ export default function NewBusinessPage() {
     const imgRef = useRef<HTMLInputElement>(null)
     return (
         <section className="min-h-screen pt-nav w-full flex flex-col items-center justify-center">
-            <ToastContainer />
         <main className="w-full flex justify-center items-center">
             <form className="bg-white flex flex-col items-center w-full max-w-lg rounded-xl shadow-md p-5 gap-5" onSubmit={handleSubmit}>
                 <h1 className="text-3xl font-semibold">{$NEW_BUSINESS}</h1>

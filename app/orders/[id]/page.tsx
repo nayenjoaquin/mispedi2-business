@@ -1,6 +1,7 @@
 'use client'
 import StatusChip from "@/components/status-chip";
 import { useOrders } from "@/hooks/useOrders";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 interface OrderProps {
@@ -22,11 +23,14 @@ export default function OrderPage({params}: OrderProps) {
     const order = getOrderById(id)
     const [showDatePicker, setShowDatePicker] = useState(false)
     const dateInputRef = useRef<HTMLInputElement>(null)
+    const router = useRouter()
 
     const confirmOrder = () => {
         dateInputRef.current &&
         acceptOrder(id, dateInputRef.current.value)
         setShowDatePicker(false)
+        router.back()
+
     }
     const declineOrder = () => {
         rejectOrder(id)
@@ -60,32 +64,45 @@ export default function OrderPage({params}: OrderProps) {
                     <StatusChip status={order.status}/>
                 </header>
                 <main className="flex flex-col lg:flex-row bg-white w-full max-w-2xl xl:max-w-5xl rounded-xl p-2.5 gap-5">
-                    <div>
+                    <div className="max-w-xs">
                         <h3 className="text-xl font-medium">Información del cliente</h3>
                         <div className="flex flex-col gap-2.5">
                             <span className="">Nombre: {order.client}</span>
                             <span className="">Teléfono: {order.phone}</span>
                             <span className="">Dirección: {order.address}/{order.commune}/{order.region}</span>
+
                         </div>
                     </div>
-                    <div>
+                    <div className="max-w-xs">
                         <h3 className="text-xl font-medium">Productos</h3>
                         <ul className="flex flex-col gap-2.5">
-                            {order.products.map((product,i) => <li key={i} className="flex items-center gap-2.5">
-                                <span>{product.product.name}x{product.quantity}</span>
+                            {order.products.map((product,i) => {
+                                let options = ''
+                                const keys = Object.keys(product.selectedOptions)
+                                keys.forEach(key => {
+                                    options += `${key}: ${product.selectedOptions[key].name} `
+                                })
+                            
+                            return <li key={i} className="flex items-center gap-2.5">
+                                <span>{product.quantity}x</span>
+                                <span>{product.product.name}-{options}</span>
                                 <span>${product.product.price* product.quantity}</span>
-                            </li>)}
+                            </li>})}
                             <li className="flex items-center gap-2.5">
                                 <span className="font-medium">Total</span>
                                 <span className="font-medium text-lg">${order.total}</span>
                             </li>
                         </ul>
                     </div>
-                    <div>
+                    <div className="max-w-xs">
                         <h3 className="text-xl font-medium">Notas del cliente</h3>
                         <p>{order.notes}</p>
-
+                        { order.deliveryDate && <div className="max-w-xs">
+                        <h2 className="text-xl font-medium">Entrega:</h2>
+                        <p>{order.deliveryDate}</p>
+                    </div>}
                     </div>
+                    
                 </main>
                 {order.status=="Nuevo" && 
                 <footer className="flex gap-5">

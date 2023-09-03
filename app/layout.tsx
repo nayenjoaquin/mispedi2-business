@@ -7,6 +7,7 @@ import BusinessProvider from '@/context/businessProvider'
 import ProductsProvider from '@/context/productsProvider'
 import { OrdersProvider } from '@/context/ordersProvider'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,6 +28,7 @@ export default function RootLayout({
       <OrdersProvider>
       <UserProvider>
       <body className={inter.className}>
+        <ToastContainer />
         <Navbar navigation={[
           { name: 'Inicio', ref: '/home' },
           { name: 'Pedidos', ref: '/orders' },

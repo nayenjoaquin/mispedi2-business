@@ -30,7 +30,7 @@ const ImgInput = (props: {main:boolean, i: number, handleChange: (img:ArrayBuffe
 
     
     return(
-        <div onClick={handleClick} className={` relative flex flex-col items-center justify-center gap-5 bg-main-400 ${main ? "max-h-52 col-span-2  md:row-span-2 md:max-h-full aspect-square " : "aspect-square"} rounded-lg transition-all hover:bg-main-500 cursor-pointer `}>
+        <div onClick={handleClick} className={` relative flex flex-col items-center justify-center gap-5 bg-main-400 ${main ? "max-h-52 col-span-2  md:row-span-2 md:max-h-full w-full aspect-square " : "aspect-square"} rounded-lg transition-all hover:bg-main-500 cursor-pointer `}>
             {
                 !img?
                 <FontAwesomeIcon icon={faPlus} className="text-5xl text-main-200 opacity-50"/>:

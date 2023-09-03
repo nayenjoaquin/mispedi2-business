@@ -2,7 +2,7 @@
 import { OptionType, ProductType } from "@/types";
 import { useContext, useEffect, useState } from "react";
 import {app, db,auth, storage, } from "@/firebase/config";
-import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { productContext } from "@/context/productsProvider";
 import { get } from "http";
 import { useBusiness } from "./useBusiness";
@@ -25,6 +25,7 @@ export const useProducts = () => {
     const addExtraImages= async (extraImages: string[], productId: string) => {
         const extraImagesURL: string[] = [];
         for( const img of extraImages){
+            if(!img) continue;
             const storageRef = ref(storage, `products/${productId}-${extraImages.indexOf(img)}`)
             const snapshot = await uploadString(storageRef, img, 'data_url')
             const url = await getDownloadURL(snapshot.ref)
@@ -34,12 +35,26 @@ export const useProducts = () => {
     }
 
     const addNewProduct = async (product: ProductType) => {
+        console.log(product);
         product.img = await addImg(product.img, product.id);
         if(product.extraImages){
             product.extraImages = await addExtraImages(product.extraImages, product.id);
         }
         const docRef = doc(db, "products", product.id);
         await setDoc(docRef, product);
+        router.back();
+    }
+
+    const deleteProduct = async (productId: string) => {
+        const docRef = doc(db, "products", productId);
+        await deleteDoc(docRef);
+        setProducts(prev =>{
+            if(prev){
+                return prev.filter(product => product.id !== productId)
+            }else{
+                return prev;
+            }
+        })
     }
 
 
@@ -50,7 +65,8 @@ export const useProducts = () => {
     return {
         products,
         initProducts,
-        addNewProduct
+        addNewProduct,
+        deleteProduct,
         
     }
 

@@ -7,6 +7,8 @@ import { useBusiness } from "@/hooks/useBusiness";
 import { useProducts } from "@/hooks/useProducts";
 import { OptionType, ProductType } from "@/types";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function NewProductPage() {
     const {business} = useBusiness()
@@ -57,7 +59,14 @@ export default function NewProductPage() {
                     business: business.id,
                     id: business.id+'-'+prevState.name
                 }
-                addNewProduct(newProduct)
+                toast.promise(addNewProduct(newProduct), {
+                    pending: "Creando producto...",
+                    success: "Producto creado",
+                    error: "Error al crear producto"
+                },{
+                    position: "top-center"
+                })
+
                 return newProduct
             }else{
                 return prevState
@@ -89,6 +98,7 @@ export default function NewProductPage() {
         
     return(
         <section className="pt-nav bg-white min-h-screen">
+            
             <header className="flex flex-col md:flex-row justify-between md:items-center p-5 gap-5  m-2.5 rounded-xl bg-white">
                 <h1 className="text-3xl font-semibold flex justify-center w-full">{newProduct.name ? newProduct.name : "Nuevo producto"}</h1>
             </header>
