@@ -21,7 +21,7 @@ export const useUser = () => {
             if(businesses.length == 0){
                 router.push('/no-businesses')
             }else{
-                router.push('/home')
+                
             }
         })
 
