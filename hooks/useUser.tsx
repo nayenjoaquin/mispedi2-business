@@ -108,7 +108,6 @@ export const useUser = () => {
                 login(currentUser);
             } else {
                 setUser(null);
-                router.push('/login')
             }
         })
     }
