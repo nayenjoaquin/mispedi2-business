@@ -9,9 +9,9 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <main className='min-h-screen pt-nav flex flex-col'>
-      <section className='px-5 flex flex-col gap-5  items-center justify-center min-h-screen py-nav bg-no-repeat bg-cover bg-[url("https://firebasestorage.googleapis.com/v0/b/pedi2-b1bb1.appspot.com/o/landing-background.svg?alt=media&token=98bfb047-ce82-4d58-867a-47f289955c36")]'>
-          <h1 className='text-5xl font-semibold text-center text-white z-10'>Recibe pedidos y administra tu negocio</h1>
+    <main className='min-h-screen pt-nav flex flex-col bg-no-repeat bg-cover bg-[url("https://firebasestorage.googleapis.com/v0/b/pedi2-b1bb1.appspot.com/o/landing-background.svg?alt=media&token=98bfb047-ce82-4d58-867a-47f289955c36")]'>
+      <section className='px-5 flex flex-col gap-5  items-center justify-center min-h-screen py-nav '>
+          <h1 className='text-5xl font-semibold text-center text-white '>Recibe pedidos y administra tu negocio</h1>
           <Image src={landingImg} alt='Landing page image'  height={900} />
           <p className='text-3xl text-white max-w-3xl text-center'>
             Mis pedi2 es una plataforma que te permite recibir pedidos de tus clientes y administrar tu negocio de manera fácil y rápida desde cualquier dispositivo.

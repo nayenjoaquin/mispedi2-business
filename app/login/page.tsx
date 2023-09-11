@@ -45,8 +45,8 @@ export default function LoginPage() {
                     <p className="mx-4 mb-0 text-center font-semibold ">o</p>
                 </div>
                 <div className="flex gap-2.5 w-full">
-                    <button onClick={loginWithGoogle} className="bg-neutral-100 w-full text-neutral-700 rounded-md py-2.5 text-sm font-semibold hover:bg-neutral-200 flex items-center justify-center gap-2.5 transition-all"><Image src="https://th.bing.com/th/id/R.0fa3fe04edf6c0202970f2088edea9e7?rik=joOK76LOMJlBPw&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fgoogle-logo-png-open-2000.png&ehk=0PJJlqaIxYmJ9eOIp9mYVPA4KwkGo5Zob552JPltDMw%3d&risl=&pid=ImgRaw&r=0" alt="google logo" height={20} width={20}/>Ingresar con Google</button>
-                    <button className="bg-blue-600 w-full text-white rounded-md py-2.5 text-sm font-semibold flex items-center justify-center gap-2.5 hover:bg-blue-800 transition-all"><FontAwesomeIcon className="text-lg" icon={faFacebookF}/>Ingresar con Facebook</button>
+                    <button onClick={loginWithGoogle} type="button" className="bg-neutral-100 w-full text-neutral-700 rounded-md py-2.5 text-sm font-semibold hover:bg-neutral-200 flex items-center justify-center gap-2.5 transition-all"><Image src="https://th.bing.com/th/id/R.0fa3fe04edf6c0202970f2088edea9e7?rik=joOK76LOMJlBPw&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fgoogle-logo-png-open-2000.png&ehk=0PJJlqaIxYmJ9eOIp9mYVPA4KwkGo5Zob552JPltDMw%3d&risl=&pid=ImgRaw&r=0" alt="google logo" height={20} width={20}/>Ingresar con Google</button>
+                    <button type="button" className="bg-blue-600 w-full text-white rounded-md py-2.5 text-sm font-semibold flex items-center justify-center gap-2.5 hover:bg-blue-800 transition-all"><FontAwesomeIcon className="text-lg" icon={faFacebookF}/>Ingresar con Facebook</button>
                 </div>
             </form>
                 <p className="py-5">¿No tienes una cuenta? <Link href="/register" className="text-main-500 font-bold hover:text-main-400">Regístrate</Link></p>

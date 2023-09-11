@@ -1,27 +1,37 @@
 import { UserContext } from "@/context/userProvider";
 import { BusinessType, UserType } from "@/types";
-import { use, useContext, useEffect } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import {app, auth, db} from "@/firebase/config";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, updateProfile } from "firebase/auth";
 import { log } from "console";
 import { useBusiness } from "./useBusiness";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { detectedUserContext } from "@/context/detectedUserProvider";
 
 
+export interface DetectedUserType {
+    id: string,
+    name: string,
+    email: string,
+    avatar: string,
+}
 export const useUser = () => {
     const { user, setUser } = useContext(UserContext);
+    const {detectedUser, setDetectedUser} = useContext(detectedUserContext);
     const {selectBusiness} = useBusiness();
     const router = useRouter();
+    const pathname = usePathname()
 
     const login = (user: any) => {
+        setDetectedUser(null)
         getUserBusinesses(user.id).then((businesses) => {
             setUser({...user, businesses})
             if(businesses.length == 0){
                 router.push('/no-businesses')
             }else{
-                
+                router.push('/home')
             }
         })
 
@@ -92,24 +102,35 @@ export const useUser = () => {
     }
 
     const mapUser = (user: any) => {
-        const { displayName, email, photoURL, uid } = user;
+        const { displayName, email, photoURL, uid, providerData } = user;
+        const { providerId } = providerData[0];
+
         return {
             id: uid,
             name: displayName,
             email: email,
             avatar: photoURL,
+            provider: providerId,
         }
     }
 
-    const detectUser = () => {
+    const detectUser = async () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const currentUser = mapUser(user);
-                login(currentUser);
-            } else {
-                setUser(null);
+                if(pathname == '/'){
+                    setDetectedUser({
+                        ...currentUser,
+                    })
+                }else{
+                    login(currentUser);
+                }
+            } else{
+                setUser(null)
             }
-        })
+        }
+        );
+
     }
 
     const logout = () => {
@@ -123,13 +144,12 @@ export const useUser = () => {
 
     const loginWithGoogle = () => {
         const provider = new GoogleAuthProvider()
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                const user = mapUser(result.user);
-                login(user);
-            }).catch((error) => {
-                console.log(error)
-            });
+        signInWithPopup(auth, provider).then((result) => {
+            const user = mapUser(result.user);
+            login(user);
+        }).catch((error) => {
+            console.log(error);
+        });
 
     }
 
@@ -141,6 +161,8 @@ export const useUser = () => {
         getUserBusinesses,
         detectUser,
         register,
-        loginWithEmail
+        loginWithEmail,
+        detectedUser,
+        login
     }
 }
