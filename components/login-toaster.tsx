@@ -1,3 +1,5 @@
+'use client'
+
 import { useUser } from "@/hooks/useUser";
 import {motion } from "framer-motion";
 import Image from "next/image";
