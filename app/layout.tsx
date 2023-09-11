@@ -1,4 +1,3 @@
-'use client'
 
 import Navbar from '@/components/navbar'
 import './globals.css'
@@ -10,7 +9,6 @@ import ProductsProvider from '@/context/productsProvider'
 import { OrdersProvider } from '@/context/ordersProvider'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useUser } from '@/hooks/useUser'
 import LandingNavBar from '@/components/landing-navbar'
 import { usePathname } from 'next/navigation'
 import LoginToaster from '@/components/login-toaster'
@@ -29,7 +27,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const {detectUser} = useUser()
   const pathname = usePathname()
 
 
