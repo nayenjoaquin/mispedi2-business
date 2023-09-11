@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation'
 import LoginToaster from '@/components/login-toaster'
 import { useEffect } from 'react'
 import DetectedUserProvider from '@/context/detectedUserProvider'
+import NavBarContainer from '@/components/navbar-container'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +28,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const pathname = usePathname()
 
 
 
@@ -40,17 +40,7 @@ export default function RootLayout({
         <DetectedUserProvider>
       <body className={inter.className}>
         <ToastContainer />
-        
-        
-        {pathname !== '/'?
-        <Navbar navigation={[
-          { name: 'Inicio', ref: '/home' },
-          { name: 'Pedidos', ref: '/orders' },
-          { name: 'Productos', ref: '/products' },
-          { name: 'Movimientos', ref: '/movements' },
-          { name: 'Negocios', ref: '/businesses' },
-        ]}/>:
-        <LandingNavBar/>}
+        <NavBarContainer/>
         {children}
         <LoginToaster/>        
         </body>
