@@ -1,7 +1,9 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import {motion} from 'framer-motion'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {AnimatePresence, motion} from 'framer-motion'
 import Link from 'next/link'
 import { useEffect } from 'react'
 export default function LandingNavBar() {
@@ -21,9 +23,9 @@ export default function LandingNavBar() {
     return(
         <motion.header variants={variants} initial='hidden' animate='visible' className=' fixed w-full flex justify-between items-center px-5 py-3 h-nav '>
             <h1 className='text-md md:text-2xl font-semibold text-white'>Mis pedi2</h1>
-            <div className='flex gap-5 items-center text-white font-semibold text-sm md:text-md'>
-            <Link href={'/login'} className='p-2.5 hover:scale-105 transition-all'>Iniciar sesión</Link>
-                <Link href={'/register'}><button className="rounded-3xl bg-white p-2.5 text-black font-medium transition-all hover:bg-neutral-100 hover:scale-105">Comienza ahora</button></Link>
+            <div className='flex gap-2.5 items-center text-white font-semibold text-sm md:text-md'>
+            <Link href={'/login'} className='p-2.5 hover:scale-105 transition-all text-xs'><span>Iniciar sesión</span></Link>
+                <Link href={'/register'}><button className="rounded-3xl bg-white p-2.5 text-black font-medium transition-all hover:bg-neutral-100 hover:scale-105 text-xs">Comienza ahora</button></Link>
                 
             </div>
         </motion.header>

@@ -1,13 +1,15 @@
 'use client'
 
 import { useUser } from "@/hooks/useUser";
-import {motion } from "framer-motion";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function LoginToaster() {
-    const { user, detectedUser, login } = useUser();
+    const { user, detectedUser, login, closeLoginToaster} = useUser();
     const pathname = usePathname()
 
     const variants = {
@@ -18,7 +20,9 @@ export default function LoginToaster() {
     }
     return (
         <div className="fixed z-100 top-0 left-0 h-screen w-screen pointer-events-none">
-            {detectedUser && pathname=='/' &&  <motion.div className=" overflow-hidden p-2.5 absolute pointer-events-auto right-5 md:right-10 top-20 rounded-xl shadow-xl bg-white w-full max-w-sm flex flex-col gap-5 justify-center" variants={variants} initial='hidden' animate='visible'>
+            <AnimatePresence>
+            {detectedUser && pathname=='/' &&  <motion.div exit='hidden' className=" overflow-hidden p-2.5 absolute pointer-events-auto right-5 md:right-10 top-20 rounded-xl shadow-xl bg-white w-full max-w-xs flex flex-col gap-5 justify-center" variants={variants} initial='hidden' animate='visible'>
+                <button className="absolute top-2.5 right-2.5 text-gray-500" onClick={e=>{ closeLoginToaster()}}><FontAwesomeIcon icon={faXmark}/></button>
                 <span className="text-md font-semibold text-center">Inicia sesión para continuar</span>
                 <div className="w-full border-b-2 border-neutral-200 "></div>
                 <div className="flex gap-2.5 items-center">
@@ -28,8 +32,8 @@ export default function LoginToaster() {
                         {detectedUser.name[0].toUpperCase()}
                     </div>}
                     <div className="flex flex-col">
-                        <span className="text-md font-semibold">{detectedUser.name}</span>
-                        <span className="text-md font-semibold">{detectedUser.email}</span>
+                        <span className="text-md">{detectedUser.name}</span>
+                        <span className="text-md">{detectedUser.email}</span>
                     </div>
                 </div>
                 <button onClick={e=>{
@@ -37,6 +41,7 @@ export default function LoginToaster() {
                 }} className="w-full bg-main-500 text-md text-white font-medium rounded-md p-2"> Continuar como {detectedUser.name}</button>
 
             </motion.div>}
+            </AnimatePresence>
                 
         </div>
     )

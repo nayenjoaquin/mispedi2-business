@@ -142,6 +142,10 @@ export const useUser = () => {
         });
     }
 
+    const closeLoginToaster = () => {
+        setDetectedUser(null)
+    }
+
     const loginWithGoogle = () => {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider).then((result) => {
@@ -163,6 +167,7 @@ export const useUser = () => {
         register,
         loginWithEmail,
         detectedUser,
-        login
+        login,
+        closeLoginToaster
     }
 }
