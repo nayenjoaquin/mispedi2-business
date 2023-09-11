@@ -11,15 +11,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 export default function ProductsPage(){
     const {products, initProducts, deleteProduct} = useProducts();
-    const {business, getBusinessProducts} = useBusiness();
+    const {business} = useBusiness();
 
-    useEffect(() => {
-        if(business){
-            getBusinessProducts(business.id).then((products) => {
-                initProducts(products);
-            })
-        }
-    }, [business])
 
     
 

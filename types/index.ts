@@ -69,6 +69,10 @@ export type BusinessContextType = {
     setBusiness: React.Dispatch<React.SetStateAction<BusinessType | null>>;
 }
 
+export type RequiredImgType = {
+    message: string;
+}
+
 export type ProductType = {
     business: string;
     name: string;
@@ -78,6 +82,7 @@ export type ProductType = {
     img: string;
     extraImages?: string[];
     options?: OptionType[];
+    requiredImg?: RequiredImgType[];
 }
 export type ProductContextType = {
     products: ProductType[] | null;

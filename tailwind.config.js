@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      gridTemplateRows: {
+        'layout': 'repeat(2, minmax(1fr, 200))',
+      },
       spacing: {
         'nav': '80px',
       },

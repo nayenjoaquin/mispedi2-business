@@ -22,7 +22,7 @@ export default function LoginToaster() {
         <div className="fixed z-100 top-0 left-0 h-screen w-screen pointer-events-none">
             <AnimatePresence>
             {detectedUser && pathname=='/' &&  <motion.div exit='hidden' className=" overflow-hidden p-2.5 absolute pointer-events-auto right-5 md:right-10 top-20 rounded-xl shadow-xl bg-white w-full max-w-xs flex flex-col gap-5 justify-center" variants={variants} initial='hidden' animate='visible'>
-                <button className="absolute top-2.5 right-2.5 text-gray-500" onClick={e=>{ closeLoginToaster()}}><FontAwesomeIcon icon={faXmark}/></button>
+                <button className="absolute top-2.5 right-2.5 text-gray-500 transition-all hover:scale-110" onClick={e=>{ closeLoginToaster()}}><FontAwesomeIcon icon={faXmark}/></button>
                 <span className="text-md font-semibold text-center">Inicia sesión para continuar</span>
                 <div className="w-full border-b-2 border-neutral-200 "></div>
                 <div className="flex gap-2.5 items-center">

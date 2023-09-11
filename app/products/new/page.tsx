@@ -5,14 +5,18 @@ import OptionPicker from "@/components/optionPicker";
 import { NewOptionProvider } from "@/context/newOptionsProvider";
 import { useBusiness } from "@/hooks/useBusiness";
 import { useProducts } from "@/hooks/useProducts";
-import { OptionType, ProductType } from "@/types";
+import { OptionType, ProductType, RequiredImgType } from "@/types";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import RequiredImgPicker from "@/components/required-img-picker";
+import { RequiredImgsProvider } from "@/context/newRequiredImgProvider";
+import { useRouter } from "next/navigation";
 
 export default function NewProductPage() {
     const {business} = useBusiness()
     const {addNewProduct} = useProducts()
+    const router = useRouter()
     const [newProduct, setNewProduct] = useState<ProductType>({
         name: "",
         price: 0,
@@ -21,7 +25,8 @@ export default function NewProductPage() {
         business: "",
         id: "",
         extraImages: ["","","",""],
-        options: []
+        options: [],
+        requiredImg: [],
     })
 
     const handleChange = (e: any) => {
@@ -92,7 +97,14 @@ export default function NewProductPage() {
             ...prevState,
             options
         }))
-    }   
+    }
+
+    const handleRequiredImgChange = (requiredImgs: RequiredImgType[]) => {
+        setNewProduct(prevState => ({
+            ...prevState,
+            requiredImg: requiredImgs
+        }))
+    }
 
 
         
@@ -107,13 +119,18 @@ export default function NewProductPage() {
                     <ImgPicker handleChange={handleImgChange} handleRemove={removeImg}/>
                     <div className="flex flex-col   gap-5 w-full max-w-xl px-5" >
                     <NewOptionProvider><OptionPicker handleOptionsChange={handleOptionsChange}/></NewOptionProvider>
+                    <RequiredImgsProvider><RequiredImgPicker handleChange={handleRequiredImgChange}/></RequiredImgsProvider>
                     <div className="flex flex-col   gap-5 w-full max-w-xl px-5" >
                         <FormGroup label="Nombre" name="name" inputType="text" handleChange={handleChange} errors={{}}/>
                         <FormGroup label="Precio" name="price" inputType="number" handleChange={handleChange} errors={{}}/>
                         <label htmlFor="description" className="font-semibold">Descripción</label>
                         <textarea name="description" className="border border-gray-300 rounded w-full px-3 py-2 focus:border-main-500 focus:border-2 outline-none transition-all" onChange={handleChange}></textarea>
                         <div className="flex gap-5 w-full justify-center">
-                            <button className="border border-gray-300 bg-none px-5 py-2.5 w-60 rounded-md font-semibold transition-all hover:bg-neutral-200">Cancelar</button>
+                            <button type="button" onClick={e=>{
+                                e.preventDefault()
+                                router.back()
+                            }}
+                            className="border border-gray-300 bg-none px-5 py-2.5 w-60 rounded-md font-semibold transition-all hover:bg-neutral-200">Cancelar</button>
                             <button className="bg-secondary-500 px-5 py-2.5 w-60 rounded-md font-semibold text-white transition-all hover:bg-secondary-600">Guardar</button>
                             
                         </div>

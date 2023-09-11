@@ -42,6 +42,13 @@ export const useProducts = () => {
         }
         const docRef = doc(db, "products", product.id);
         await setDoc(docRef, product);
+        setProducts(prev => {
+            if(prev){
+                return [...prev, product]
+            }else{
+                return [product]
+            }
+        })
         router.back();
     }
 

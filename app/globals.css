@@ -25,3 +25,10 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@media (min-width: 768px){
+  .imgPickerGrid{
+    max-height: 550px;
+    grid-template-rows: repeat(2,minmax(0,200px));
+  }
+}

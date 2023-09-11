@@ -19,7 +19,7 @@ export default function BusinessesPage() {
                 <button onClick={e=>{
                     e.preventDefault()
                     router.push('/business/new')
-                }} className="bg-secondary-500 hover:bg-secondary-600 text-white rounded-md px-5 py-2.5">Crear nuevo negocio</button>
+                }} className="bg-secondary-500 hover:bg-secondary-600 text-white text-xs md:text-base rounded-md px-5 py-2.5">Crear nuevo negocio</button>
             </header>
             <main>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
