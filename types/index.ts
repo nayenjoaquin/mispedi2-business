@@ -100,13 +100,21 @@ export type ProductContextType = {
 }
 export type OptionType={
     name: string;
-    values: OptionValueType[];
+    values: NewOptionValueType[];
     id: string;
 }
 export type OptionValueType = {
     name: string;
     id: string;
     option: string;
+    price?: number;
+}
+export type NewOptionValueType = {
+    name: string;
+    id: string;
+    option: string;
+    changePrice?: boolean;
+    price?: number;
 }
 
 export type NewOptionContextType = {

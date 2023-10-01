@@ -40,21 +40,20 @@ export const NewOptionItem = (props: {
                 handleNameChange(e, i)
             }} className="w-fit rounded text-lg  outline-none border-b-2 border-main-500" type="text" name={`option-${i}`}  id={`option-${i}`} placeholder={option.name}/>
             {
-                option.values.length>0 ?
-                <motion.div layout className="flex gap-2.5 flex-wrap">
+                option.values.length>0 &&
+                <motion.div layout className="w-full flex gap-2.5 flex-col">
                 {option.values.map((value,j) => {
                     return(
                         <NewOptionValue value={value} j={j} i={i} key={j}/>
                     )
                 })}
-                <FontAwesomeIcon icon={faPlus} className="text-gray-400 cursor-pointer bg-gray-300 p-2.5 rounded-full transition-all hover:bg-gray-400 hover:text-gray-500" onClick={e=>{ addValue(i, option)}}/>
                 </motion.div>
-                :
-                <button type="button" onClick={e=>{
-                    addValue(i,option)
-                }} className="bg-neutral-200 text-gray-600 w-fit rounded transition-all hover:bg-neutral-300 px-2">{$ADD_VALUE}</button>
-
             }
+            <button type="button" onClick={e=>{
+                addValue(i,option)
+            }} className="bg-neutral-200 text-gray-600 w-fit rounded transition-all hover:bg-neutral-300 px-2">{$ADD_VALUE}</button>
+
+            
 
 
         </motion.div>
