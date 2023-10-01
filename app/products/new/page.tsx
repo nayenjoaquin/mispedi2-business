@@ -5,7 +5,7 @@ import OptionPicker from "@/components/optionPicker";
 import { NewOptionProvider } from "@/context/newOptionsProvider";
 import { useBusiness } from "@/hooks/useBusiness";
 import { useProducts } from "@/hooks/useProducts";
-import { OptionType, ProductType, RequiredImgType } from "@/types";
+import { NewProductType, OptionType, ProductType, RequiredImgType } from "@/types";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,13 +17,12 @@ export default function NewProductPage() {
     const {business} = useBusiness()
     const {addNewProduct} = useProducts()
     const router = useRouter()
-    const [newProduct, setNewProduct] = useState<ProductType>({
+    const [newProduct, setNewProduct] = useState<NewProductType>({
         name: "",
         price: 0,
         img: "",
         description: "",
         business: "",
-        id: "",
         extraImages: ["","","",""],
         options: [],
         requiredImg: [],
@@ -62,7 +61,6 @@ export default function NewProductPage() {
                 const newProduct = {
                     ...prevState,
                     business: business.id,
-                    id: business.id+'-'+prevState.name
                 }
                 toast.promise(addNewProduct(newProduct), {
                     pending: "Creando producto...",

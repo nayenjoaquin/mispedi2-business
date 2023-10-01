@@ -84,6 +84,16 @@ export type ProductType = {
     options?: OptionType[];
     requiredImg?: RequiredImgType[];
 }
+export type NewProductType  ={
+    business: string;
+    name: string;
+    price: number;
+    description: string;
+    img: string;
+    extraImages?: string[];
+    options?: OptionType[];
+    requiredImg?: RequiredImgType[];
+}
 export type ProductContextType = {
     products: ProductType[] | null;
     setProducts: React.Dispatch<React.SetStateAction<ProductType[] | null>>;

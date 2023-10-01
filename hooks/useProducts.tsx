@@ -1,8 +1,8 @@
 'use client'
-import { OptionType, ProductType } from "@/types";
+import { NewProductType, OptionType, ProductType } from "@/types";
 import { useContext, useEffect, useState } from "react";
 import {app, db,auth, storage, } from "@/firebase/config";
-import { collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { productContext } from "@/context/productsProvider";
 import { get } from "http";
 import { useBusiness } from "./useBusiness";
@@ -25,7 +25,10 @@ export const useProducts = () => {
     const addExtraImages= async (extraImages: string[], productId: string) => {
         const extraImagesURL: string[] = [];
         for( const img of extraImages){
-            if(!img) continue;
+            if(img == '') {
+                extraImagesURL.slice(extraImagesURL.indexOf(img), 1);
+                continue;
+            }
             const storageRef = ref(storage, `products/${productId}-${extraImages.indexOf(img)}`)
             const snapshot = await uploadString(storageRef, img, 'data_url')
             const url = await getDownloadURL(snapshot.ref)
@@ -34,19 +37,24 @@ export const useProducts = () => {
         return extraImagesURL;
     }
 
-    const addNewProduct = async (product: ProductType) => {
-        console.log(product);
-        product.img = await addImg(product.img, product.id);
-        if(product.extraImages){
-            product.extraImages = await addExtraImages(product.extraImages, product.id);
+    const addNewProduct = async (product: NewProductType) => {
+        const collectionRef = collection(db, "products");
+        const newDocRef = await addDoc(collectionRef, {});
+        const newProduct: ProductType = {
+            ...product,
+            id: newDocRef.id,
         }
-        const docRef = doc(db, "products", product.id);
-        await setDoc(docRef, product);
+
+        product.img = await addImg(product.img, newProduct.id);
+        if(product.extraImages){
+            product.extraImages = await addExtraImages(product.extraImages, newProduct.id);
+        }
+        await setDoc(newDocRef, newProduct);
         setProducts(prev => {
             if(prev){
-                return [...prev, product]
+                return [...prev, newProduct]
             }else{
-                return [product]
+                return prev
             }
         })
         router.back();
