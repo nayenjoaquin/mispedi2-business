@@ -19,10 +19,11 @@ export const useNewOption = () => {
             return newOptions
         })
     }
-    const handleOptionNameChange = (e: any, i: number) => {
+    const handleOptionNameChange = (e: any, optionId: string) => {
         const {value} = e.target
         setOptions(prevState => {
             let newOptions:OptionType[]= JSON.parse(JSON.stringify(prevState))
+            let i = newOptions.findIndex(option => option.id == optionId)
             newOptions[i].name = value
             newOptions[i].values.forEach((value, j) => {
                 value.option = newOptions[i].name
@@ -32,18 +33,21 @@ export const useNewOption = () => {
         })
     }
 
-    const handleValuePriceSwitch = (e: any, i: number, j: number) => {
+    const handleValuePriceSwitch = (e: any, optionId: string , valueId: string) => {
         const {checked} = e.target
         setOptions(prevState => {
             let newOptions:OptionType[] = JSON.parse(JSON.stringify(prevState))
+            let i = newOptions.findIndex(option => option.id == optionId)
+            let j = newOptions[i].values.findIndex(value => value.id == valueId)
             newOptions[i].values[j].changePrice = checked
             return newOptions
         })
     }
 
-    const addOptionValue = (i:number, option:OptionType) => {
+    const addOptionValue = ( option:OptionType) => {
         const valueId = uuid()
         setOptions(prevState => {
+            let i = prevState.findIndex(prevOption => prevOption.id == option.id)
             const newOptionValue:NewOptionValueType = {
                 name: "valor "+(prevState[i].values.length+1),
                 id: valueId,
@@ -56,34 +60,38 @@ export const useNewOption = () => {
         })
     }
 
-    const handleOptionValueChange = (e: any, i: number, j: number) => {
+    const handleOptionValueChange = (e: any, optionId: string, valueId: string) => {
         const {value} = e.target
         setOptions(prevState => {
+            let i = prevState.findIndex(option => option.id == optionId)
+            let j = prevState[i].values.findIndex(value => value.id == valueId)
             let newOptions:OptionType[] = JSON.parse(JSON.stringify(prevState))
             newOptions[i].values[j].name = value
             return newOptions
         })
     }
-    const handleValuePriceChange = (e: any, i: number, j: number) => {
+    const handleValuePriceChange = (e: any, optionId: string, valueId: string) => {
         const {value} = e.target
         setOptions(prevState => {
+            let i = prevState.findIndex(option => option.id == optionId)
+            let j = prevState[i].values.findIndex(value => value.id == valueId)
             let newOptions:OptionType[] = JSON.parse(JSON.stringify(prevState))
             newOptions[i].values[j].price = parseInt(value)
             return newOptions
         })
     }
-    const removeOpotionValue = (i:number, j:number) => {
+    const removeOpotionValue = (optionId:string, valueId:string) => {
         setOptions(prevState => {
             let newOptions = JSON.parse(JSON.stringify(prevState))
-            newOptions[i].values.splice(j,1)
-            console.log(newOptions)
+            let i = newOptions.findIndex((option: OptionType) => option.id == optionId)
             return newOptions
         })
     }
 
-    const removeOption = (i:number) => {
+    const removeOption = (id:string) => {
         setOptions(prevState => {
             let newOptions = JSON.parse(JSON.stringify(prevState))
+            let i = newOptions.findIndex((option: OptionType) => option.id == id)
             newOptions.splice(i,1)
             return newOptions
         })

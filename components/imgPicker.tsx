@@ -4,7 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
 import { useRef, useState } from "react"
 
-const ImgInput = (props: {main:boolean, i: number, handleChange: (img:ArrayBuffer|string, i:number)=>void, handleRemove: (i: number) => void}) => {
+interface ImgInputProps {
+    main:boolean
+    i: number
+    handleChange: (img:ArrayBuffer|string, i:number)=>void
+    handleRemove: (i: number) => void
+}
+
+const ImgInput = (props: ImgInputProps) => {
+
     const [img, setImg] = useState<string | ArrayBuffer | null >("")
     const {main, i, handleChange, handleRemove}= props
     const inputRef = useRef<HTMLInputElement>(null)
@@ -44,13 +52,17 @@ const ImgInput = (props: {main:boolean, i: number, handleChange: (img:ArrayBuffe
     )
 }
 
+interface ImgPickerProps {
+    handleChange: (img: ArrayBuffer| string, i:number) => void
+    handleRemove: (i:number)=>void
+}
 
 
-export default function ImgPicker(props: {handleChange: (img: ArrayBuffer| string, i:number) => void, handleRemove: (i:number)=>void}) {
+export default function ImgPicker(props: ImgPickerProps) {
 
     const {handleChange, handleRemove} = props
     return (
-        <div className="grid grid-cols-2 grid-rows-3 md:grid-cols-4 imgPickerGrid gap-5 p-5 md:grid-flow-col max-w-5xl w-full place-items-center ">
+        <div className="grid grid-cols-2 grid-rows-3 md:grid-cols-4 imgPickerGrid gap-5 md:grid-flow-col w-full place-items-center">
             {
                 Array.from(Array(5).keys()).map((i) => (
                     <ImgInput key={i} main={i==0 ? true : false} i={i} handleChange={handleChange} handleRemove={handleRemove}/>

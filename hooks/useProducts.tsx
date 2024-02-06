@@ -70,6 +70,7 @@ export const useProducts = () => {
                 return prev;
             }
         })
+        return;
     }
 
 

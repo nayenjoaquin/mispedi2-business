@@ -9,9 +9,9 @@ import { NewProductType, OptionType, ProductType, RequiredImgType } from "@/type
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import RequiredImgPicker from "@/components/required-img-picker";
 import { RequiredImgsProvider } from "@/context/newRequiredImgProvider";
 import { useRouter } from "next/navigation";
+import {motion} from "framer-motion"
 
 export default function NewProductPage() {
     const {business} = useBusiness()
@@ -112,18 +112,23 @@ export default function NewProductPage() {
             <header className="flex flex-col md:flex-row justify-between md:items-center p-5 gap-5  m-2.5 rounded-xl bg-white">
                 <h1 className="text-3xl font-semibold flex justify-center w-full">{newProduct.name ? newProduct.name : "Nuevo producto"}</h1>
             </header>
-            <main className="bg-white w-full">
-                <form className="flex flex-wrap bg-white gap-5 w-full justify-center" onSubmit={handleSubmit}>
-                    <ImgPicker handleChange={handleImgChange} handleRemove={removeImg}/>
-                    <div className="flex flex-col   gap-5 w-full max-w-xl px-5" >
-                    <NewOptionProvider><OptionPicker handleOptionsChange={handleOptionsChange}/></NewOptionProvider>
-                    <RequiredImgsProvider><RequiredImgPicker handleChange={handleRequiredImgChange}/></RequiredImgsProvider>
-                    <div className="flex flex-col   gap-5 w-full max-w-xl px-5" >
-                        <FormGroup label="Nombre" name="name" inputType="text" handleChange={handleChange} errors={{}}/>
-                        <FormGroup label="Precio base" name="price" inputType="number" handleChange={handleChange} errors={{}}/>
-                        <label htmlFor="description" className="font-semibold">Descripción</label>
-                        <textarea name="description" className="border border-gray-300 rounded w-full px-3 py-2 focus:border-main-500 focus:border-2 outline-none transition-all" onChange={handleChange}></textarea>
-                        <div className="flex gap-5 w-full justify-center">
+            <main className="bg-white w-full p-5 flex flex-col items-center">
+                <motion.form layout className="flex flex-col bg-white gap-5 w-full max-w-6xl justify-center" onSubmit={handleSubmit}>
+                    <div className="flex flex-wrap md:flex-nowrap gap-5 items-center w-full">
+                        <ImgPicker handleChange={handleImgChange} handleRemove={removeImg}/>
+                        <div className="flex flex-col   gap-5 w-full md:max-w-sm" >
+                            <FormGroup label="Nombre" name="name" inputType="text" handleChange={handleChange} errors={{}}/>
+                            <FormGroup label="Precio base" name="price" inputType="number" handleChange={handleChange} errors={{}}/>
+                            <FormGroup label="Stock" name="stock" inputType="number" handleChange={handleChange} errors={{}}/>
+                            <label htmlFor="description" className="">Descripción</label>
+                            <textarea name="description" className="border border-gray-300 rounded w-full px-3 py-2 focus:border-main-500 focus:border-2 outline-none transition-all" onChange={handleChange}></textarea>
+                            
+                        </div>
+                    </div>
+                    <div className="flex w-full items-center">
+                        <NewOptionProvider><OptionPicker handleOptionsChange={handleOptionsChange}/></NewOptionProvider>
+                    </div>
+                    <div className="flex gap-5 w-full justify-center">
                             <button type="button" onClick={e=>{
                                 e.preventDefault()
                                 router.back()
@@ -132,9 +137,7 @@ export default function NewProductPage() {
                             <button className="bg-secondary-500 px-5 py-2.5 w-60 rounded-md font-semibold text-white transition-all hover:bg-secondary-600">Guardar</button>
                             
                         </div>
-                    </div>
-                    </div>
-                </form>
+                </motion.form>
             </main>
         </section>
     )
