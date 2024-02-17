@@ -2,7 +2,7 @@
 import { NewProductType, OptionType, ProductType } from "@/types";
 import { useContext, useEffect, useState } from "react";
 import {app, db,auth, storage, } from "@/firebase/config";
-import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { productContext } from "@/context/productsProvider";
 import { get } from "http";
 import { useBusiness } from "./useBusiness";
@@ -38,18 +38,30 @@ export const useProducts = () => {
     }
 
     const addNewProduct = async (product: NewProductType) => {
+        console.log(product)
         const collectionRef = collection(db, "products");
-        const newDocRef = await addDoc(collectionRef, {});
-        const newProduct: ProductType = {
-            ...product,
-            id: newDocRef.id,
+
+        let newDocRef;
+        try{
+             newDocRef = await addDoc(collectionRef, {});
+        }catch(e){
+            throw new Error('Error adding product')
         }
 
-        product.img = await addImg(product.img, newProduct.id);
+        
+        const newProduct = {...product, id: newDocRef!.id}
+
+
+        newProduct.img = await addImg(product.img, newProduct.id);
         if(product.extraImages){
-            product.extraImages = await addExtraImages(product.extraImages, newProduct.id);
+            newProduct.extraImages = await addExtraImages(product.extraImages, newProduct.id);
         }
-        await setDoc(newDocRef, newProduct);
+        try{
+            await setDoc(doc(db, "products", newProduct.id), newProduct);
+        }catch(e){
+            throw new Error('Error adding product')
+        }
+
         setProducts(prev => {
             if(prev){
                 return [...prev, newProduct]
@@ -58,6 +70,8 @@ export const useProducts = () => {
             }
         })
         router.back();
+        return
+        
     }
 
     const deleteProduct = async (productId: string) => {

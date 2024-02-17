@@ -108,13 +108,15 @@ export type OptionValueType = {
     id: string;
     option: string;
     price?: number;
+    img?: string;
 }
 export type NewOptionValueType = {
     name: string;
     id: string;
     option: string;
-    changePrice?: boolean;
+    stock: number;
     price?: number;
+    img?: string;
 }
 
 export type NewOptionContextType = {
