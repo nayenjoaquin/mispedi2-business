@@ -20,12 +20,12 @@ export const OptionEditor = (props: OptionEditorProps) => {
                         <FontAwesomeIcon icon={faInfoCircle} className="text-blue-500"/>
                     </span>
                     </label>
-                    <input onChange={e=>handleOptionNameChange(e.target.value, option.id)} name="option-name" className="w-full max-w-xs p-2.5 outline-none border-b-2 " type="text" value={option.name}/>
+                    <input onChange={e=>handleOptionNameChange(e.target.value, option.id)} name="option-name" className="w-full max-w-xs p-2.5 outline-none border-b-2 " type="text" placeholder="ej: Talla" value={option.name}/>
                 </div>
             </div>
             <div className="flex flex-col gap-2.5 justify-between ">
                 <h4 className="text-xl font-semibold">Valores</h4>
-                <div className="flex flex-col gap-2.5 max-h-80">
+                <div className="flex flex-col gap-2.5 max-h-80 overflow-y-scroll">
                     {
                         option.values.map((value,i) => (
                             <div key={value.id} className="flex items-center gap-2.5">

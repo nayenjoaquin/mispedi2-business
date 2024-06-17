@@ -24,7 +24,7 @@ export default function NewProductPage() {
         price: 0,
         img: "",
         description: "",
-        business: "",
+        business: business!.id as string,
         extraImages: ["","","",""],
         options: [],
         requiredImg: [],
@@ -58,25 +58,19 @@ export default function NewProductPage() {
     }
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        setNewProduct(prevState => {
-            if(business){
-                const newProduct = {
-                    ...prevState,
-                    business: business.id,
-                }
-                toast.promise(addNewProduct(newProduct), {
-                    pending: "Creando producto...",
-                    success: "Producto creado",
-                    error: "Error al crear producto"
-                },{
-                    position: "top-center"
-                })
-
-                return newProduct
-            }else{
-                return prevState
-            }
-        })
+        if(business){
+            toast.promise(addNewProduct(newProduct), {
+                pending: "Creando producto...",
+                success: "Producto creado",
+                error: "Error al crear producto"
+            },{
+                position: "top-center",
+                autoClose: 1000,
+            })
+        }else{
+            toast.error("No se ha podido crear el producto")
+        }
+        
     }
 
     const removeImg = (i:number) => {

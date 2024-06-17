@@ -27,10 +27,23 @@ export const NewOptionModal = (props: NewOptionModalProps) => {
             handleOptionValueChange(value, option.id, valueId)
         })
     }
+    const newShoeSizeOption = () => {
+        const option = addOption()
+        handleOptionNameChange("Talla", option.id)
+        const values = ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44']
+        values.forEach(value => {
+            const valueId = addOptionValue(option)
+            handleOptionValueChange(value, option.id, valueId)
+        })
+    }
     const presets = [
         {
             name: 'Tallas',
             function: newSizeOption,
+        },
+        {
+            name: 'Tallas (calzado)',
+            function: newShoeSizeOption,
         },
         {
             name: 'Personalizado',

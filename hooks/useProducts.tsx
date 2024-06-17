@@ -2,7 +2,7 @@
 import { NewProductType, OptionType, ProductType } from "@/types";
 import { useContext, useEffect, useState } from "react";
 import {app, db,auth, storage, } from "@/firebase/config";
-import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { productContext } from "@/context/productsProvider";
 import { get } from "http";
 import { useBusiness } from "./useBusiness";
@@ -38,7 +38,6 @@ export const useProducts = () => {
     }
 
     const addNewProduct = async (product: NewProductType) => {
-        console.log(product)
         const collectionRef = collection(db, "products");
 
         let newDocRef;
@@ -69,7 +68,7 @@ export const useProducts = () => {
                 return prev
             }
         })
-        router.back();
+        router.push('/products');
         return
         
     }
@@ -87,6 +86,18 @@ export const useProducts = () => {
         return;
     }
 
+    const getProduct = async (productId: string) => {
+        const docRef = doc(db, "products", productId);
+        const docSnap = await getDoc(docRef);
+        if(docSnap.exists()){
+            return docSnap.data() as ProductType;
+        }else{
+            throw new Error('Product not found');
+        }
+    }
+        
+        
+
 
     const initProducts =  (products: ProductType[]) => {
         setProducts(products);
@@ -97,7 +108,7 @@ export const useProducts = () => {
         initProducts,
         addNewProduct,
         deleteProduct,
-        
+        getProduct
     }
 
 }

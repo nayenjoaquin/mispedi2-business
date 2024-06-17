@@ -46,7 +46,7 @@ const ImgInput = (props: ImgInputProps) => {
                     <Image src={img as string} alt="new product uploaded img" className="  object-cover rounded-lg h-full w-full max-h-[200px] md:max-h-full" width={200} height={200}/>
                     <FontAwesomeIcon onClick={removeImg} icon={faXmark} className="absolute top-2 right-2 text-neutral-300 text-2xl cursor-pointer transition-all hover:text-neutral-500"/>
                 </div>}
-                <span className="absolute left-2.5 bottom-0 text-2xl text-secondary-500 font-semibold"> {i+1} </span>
+                <span className="absolute left-2.5 bottom-0 text-2xl text-white font-semibold"> {i+1} </span>
             <input type="file" onChange={handlePick} ref={inputRef} hidden/>
         </div>
     )
