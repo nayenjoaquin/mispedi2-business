@@ -24,7 +24,7 @@ export default function NewProductPage() {
         price: 0,
         img: "",
         description: "",
-        business: business!.id as string,
+        business: business?.id ?? "",
         extraImages: ["","","",""],
         options: [],
         requiredImg: [],
