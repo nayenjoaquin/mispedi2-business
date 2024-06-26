@@ -22,48 +22,36 @@ export const useProducts = () => {
         return url;
     }
 
-    const addExtraImages= async (extraImages: string[], productId: string) => {
-        const extraImagesURL: string[] = [];
-        for( const img of extraImages){
+    const uploadImages= async (images: string[], productId: string) => {
+        const imagesURL: string[] = [];
+        for( const img of images){
             if(img == '') {
-                extraImagesURL.slice(extraImagesURL.indexOf(img), 1);
+                imagesURL.slice(imagesURL.indexOf(img), 1);
                 continue;
             }
-            const storageRef = ref(storage, `products/${productId}-${extraImages.indexOf(img)}`)
+            const storageRef = ref(storage, `products/${productId}-${images.indexOf(img)}`)
             const snapshot = await uploadString(storageRef, img, 'data_url')
             const url = await getDownloadURL(snapshot.ref)
-            extraImagesURL.push(url);
+            imagesURL.push(url);
         }
-        return extraImagesURL;
+        return imagesURL;
     }
 
     const addNewProduct = async (product: NewProductType) => {
         const collectionRef = collection(db, "products");
+        const docRef = await addDoc(collectionRef, {});
 
-        let newDocRef;
+
+        product.images = await uploadImages(product.images, docRef.id);
         try{
-             newDocRef = await addDoc(collectionRef, {});
-        }catch(e){
-            throw new Error('Error adding product')
-        }
-
-        
-        const newProduct = {...product, id: newDocRef!.id}
-
-
-        newProduct.img = await addImg(product.img, newProduct.id);
-        if(product.extraImages){
-            newProduct.extraImages = await addExtraImages(product.extraImages, newProduct.id);
-        }
-        try{
-            await setDoc(doc(db, "products", newProduct.id), newProduct);
+            await setDoc(doc(db, "products", docRef.id), product);
         }catch(e){
             throw new Error('Error adding product')
         }
 
         setProducts(prev => {
             if(prev){
-                return [...prev, newProduct]
+                return [...prev, product as ProductType]
             }else{
                 return prev
             }
@@ -90,7 +78,10 @@ export const useProducts = () => {
         const docRef = doc(db, "products", productId);
         const docSnap = await getDoc(docRef);
         if(docSnap.exists()){
-            return docSnap.data() as ProductType;
+            return {
+                ...docSnap.data(),
+                id: docSnap.id
+            } as ProductType
         }else{
             throw new Error('Product not found');
         }

@@ -25,7 +25,10 @@ export const useBusiness = () => {
         const querySnapshot = await getDocs(q);
         let products: ProductType[] = [];
         querySnapshot.forEach((doc) => {
-            products.push(doc.data() as ProductType)
+            products.push({
+                id: doc.id,
+                ...doc.data()
+            } as ProductType)
         })
         return products;
   }

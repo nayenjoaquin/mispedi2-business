@@ -25,7 +25,32 @@ export default function MyProductPage({params}: params){
         getProduct(id).then((data) => {
             setProduct(data);
         })
-    }, [id, getProduct])
+    }, [id, ])
+
+    const onImgChange = (img: string, i: number) => {
+        setProduct((prev) => {
+            if(prev == null) return null;
+            const updatedProduct= JSON.parse(JSON.stringify(prev));
+            if(i == 0){
+                updatedProduct.img = img;
+            }else{
+                updatedProduct.extraImages[i-1] = img;
+            }
+            return updatedProduct ;
+        })
+
+    }
+
+    const removeImgSlot = (i: number) => {
+        setProduct((prev) => {
+            if(prev == null) return null;
+            const updatedProduct= JSON.parse(JSON.stringify(prev));
+            updatedProduct.images.splice(i, 1);
+            return updatedProduct ;
+        })
+    }
+
+
 
     const addImageSlot = () => {
 
@@ -42,12 +67,16 @@ export default function MyProductPage({params}: params){
                 <div className="flex gap-5 w-full">{
                     product !=null ? (
                         <div className='flex max-w-[150px]'>
-                            <ImagesColumn images={[product.img, ...product.extraImages??[]]} addImage={addImageSlot}/>
+                            <ImagesColumn onImgChange={onImgChange} images={product.images} addImage={addImageSlot} removeImage={removeImgSlot}/>
                         </div>
                     ) : (
                         null
-                    )
-                }
+                    )}
+                    <div className="flex flex-col gap-5 w-full max-w-6xl justify-center">
+                        <header className="flex flex-col md:flex-row justify-between md:items-center w-full p-5 gap-5  m-2.5 rounded-xl bg-white">
+                        </header>
+                    </div>
+                
                 </div>
             </main>
         </section>

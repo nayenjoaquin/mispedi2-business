@@ -20,7 +20,7 @@ export const MyProductItem = (props: MyProductItemProps) => {
                 router.push(`/products/${product.id}`)
             }} key={product.id} className="flex w-full rounded-md items-center justify-between transition-all hover:shadow-xl hover:-translate-y-1 px-5 cursor-pointer">
                 <div className="flex items-center gap-2.5">
-                    <Image src={product.img} className="aspect-square object-cover rounded" alt="product img" width={50} height={50} />
+                    <Image src={product.images[0]} className="aspect-square object-cover rounded" alt="product img" width={50} height={50} />
                     <p className="w-full line-clamp-1 text-ellipsis">{product.name}</p>
                 </div>
                 <div className="flex items-center gap-2.5">

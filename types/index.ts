@@ -79,8 +79,7 @@ export type ProductType = {
     price: number;
     id: string;
     description: string;
-    img: string;
-    extraImages?: string[];
+    images: string[];
     options?: OptionType[];
     requiredImg?: RequiredImgType[];
 }
@@ -89,8 +88,7 @@ export type NewProductType  ={
     name: string;
     price: number;
     description: string;
-    img: string;
-    extraImages?: string[];
+    images: string[];
     options?: OptionType[];
     requiredImg?: RequiredImgType[];
 }

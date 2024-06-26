@@ -22,10 +22,9 @@ export default function NewProductPage() {
     const [newProduct, setNewProduct] = useState<NewProductType>({
         name: "",
         price: 0,
-        img: "",
+        images: [],
         description: "",
         business: business?.id ?? "",
-        extraImages: ["","","",""],
         options: [],
         requiredImg: [],
     })
@@ -39,20 +38,12 @@ export default function NewProductPage() {
     }
 
     const handleImgChange = (img:ArrayBuffer |string, i:number) => {
-        i==0? setNewProduct(prevState => ({
-            ...prevState,
-            img: img as string        
-        })):
-
         setNewProduct(prevState => {
-            let newExtraImages = prevState.extraImages
-            newExtraImages?
-            newExtraImages[i-1] = img as string:
-            newExtraImages = ["","","",""]
-            newExtraImages[i-1] = img as string
+            let images = JSON.parse(JSON.stringify(prevState.images))
+            images[i] = img
             return{
                 ...prevState,
-                extraImages: newExtraImages
+                images: images
             }
         })
     }
@@ -75,7 +66,7 @@ export default function NewProductPage() {
 
     const removeImg = (i:number) => {
         setNewProduct(prevState => {
-            let newExtraImages = prevState.extraImages
+            let newExtraImages = prevState.images
             newExtraImages ?
             newExtraImages[i-1] = "":
             newExtraImages = ["","","",""]
